@@ -16,4 +16,11 @@ public class WebConfig implements WebMvcConfigurer {
  * Configure CORS to allow requests from any origin for development purposes.
  * In production, restrict origins to specific domains.
  */
+
+@Override
+public void addCorsMappings(CorsRegistry registry) {
+    registry.addMapping("/**")
+            .allowedOrigins("*")
+            .allowedMethods("*");
+}
 }
