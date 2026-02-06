@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Robot Delivery System</title>
+</head>
+<body>
+<h1>Robot Delivery System</h1>
+
+<h2>Orders</h2>
+<ul>
+  <li th:each="o : ${orders}">
+    <span th:text="${o.id}"></span> -
+    <span th:text="${o.status}"></span>
+  </li>
+</ul>
+
+</body>
+</html>

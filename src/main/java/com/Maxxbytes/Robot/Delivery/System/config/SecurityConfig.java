@@ -9,10 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-/**
- * Security configuration class for setting up authentication and authorization.
- * Uses basic HTTP authentication with role-based access control.
- */
+
 @Configuration
 public class SecurityConfig {
 
