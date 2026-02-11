@@ -2,18 +2,110 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8"/>
-  <title>Robot Delivery System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Orders</title>
+  <link rel="stylesheet" th:href="@{/app.css}"/>
 </head>
 <body>
-<h1>Robot Delivery System</h1>
 
-<h2>Orders</h2>
-<ul>
-  <li th:each="o : ${orders}">
-    <span th:text="${o.id}"></span> -
-    <span th:text="${o.status}"></span>
-  </li>
-</ul>
+<div class="nav">
+  <div class="nav-inner">
+    <div class="brand">MAXX Byte — Robot Delivery</div>
+    <div class="muted">Orders</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h1>Orders</h1>
+        <p class="muted">Current robot delivery orders.</p>
+      </div>
+
+      <div class="actions">
+        <a class="btn btn-ghost" href="/" title="Refresh">Refresh</a>
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <div class="empty" th:if="${orders == null || #lists.isEmpty(orders)}">
+      <div class="empty-title">No orders available</div>
+      <div class="muted">Create a test order below to see the table render.</div>
+    </div>
+
+    <!-- Orders table -->
+    <table class="table" th:if="${orders != null && !#lists.isEmpty(orders)}">
+      <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Status</th>
+        <th>Delivery Address</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr th:each="o : ${orders}">
+        <td th:text="${o.id}">1</td>
+
+        <td>
+          <span class="badge"
+                th:classappend="${
+                  (o.status != null && o.status.name() == 'DELIVERED') ? ' delivered' :
+                  (o.status != null && o.status.name() == 'IN_DELIVERY') ? ' progress' :
+                  (o.status != null && o.status.name() == 'CANCELLED') ? ' cancelled' : ' pending'
+                }"
+                th:text="${o.status}">
+            STATUS
+          </span>
+        </td>
+
+
+        <td class="muted" th:text="${o.deliveryAddress} ?: '—'">—</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <hr class="sep"/>
+
+
+    <div class="form-wrap">
+      <h2>Create Order</h2>
+      <p class="muted">Demo form to create an order and refresh the list.</p>
+
+      <form class="form" method="post" action="/orders/create">
+        <input class="input" type="text" name="address" placeholder="Delivery address (ex: 123 Campus Way)" required>
+        <button class="btn" type="submit">Create</button>
+      </form>
+
+      <p class="muted tiny">
+
+      </p>
+    </div>
+
+  </div>
+
+
+  <div class="card" style="margin-top: 18px;">
+    <h2>Robot Metrics</h2>
+    <div class="grid">
+      <div class="stat">
+        <div class="muted tiny">Total Orders</div>
+        <div class="stat-value" th:text="${orders != null ? orders.size() : 0}">0</div>
+      </div>
+      <div class="stat">
+        <div class="muted tiny">Delivery SLA</div>
+        <div class="stat-value">20 min</div>
+      </div>
+      <div class="stat">
+        <div class="muted tiny">Max Walkway Speed</div>
+        <div class="stat-value">15 mph</div>
+      </div>
+    </div>
+  </div>
+
+</div>
 
 </body>
 </html>
