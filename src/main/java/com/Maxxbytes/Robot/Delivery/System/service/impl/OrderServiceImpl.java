@@ -7,6 +7,7 @@ import com.Maxxbytes.Robot.Delivery.System.model.OrderStatus;
 import com.Maxxbytes.Robot.Delivery.System.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.time.LocalDateTime;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -105,5 +106,31 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getAllOrders() {
         return orders;
+    }
+
+    public List<Order> getOrdersForUser(Long userId) {
+        return orders.stream()
+                .filter(o -> o.getUserId().equals(userId))
+                .toList();
+    }
+
+    public List<Order> searchOrdersByItem(Long userId, String itemName) {
+        return orders.stream()
+                .filter(o -> o.getUserId().equals(userId))
+                .filter(o -> o.getItems().stream()
+                        .anyMatch(i -> i.getName().equalsIgnoreCase(itemName)))
+                .toList();
+    }
+
+    public List<Order> searchOrdersByDateRange(
+            Long userId,
+            LocalDateTime from,
+            LocalDateTime to) {
+
+        return orders.stream()
+                .filter(o -> o.getUserId().equals(userId))
+                .filter(o -> !o.getCreatedTime().isBefore(from)
+                        && !o.getCreatedTime().isAfter(to))
+                .toList();
     }
 }

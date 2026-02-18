@@ -2,6 +2,8 @@ package com.Maxxbytes.Robot.Delivery.System.service;
 
 import com.Maxxbytes.Robot.Delivery.System.model.Order;
 import com.Maxxbytes.Robot.Delivery.System.model.OrderItem;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import java.util.List;
 
@@ -22,4 +24,13 @@ public interface OrderService {
     Order getOrderById(Long orderId);
 
     List<Order> getAllOrders();
+
+    List<Order> getOrdersForUser(Long userId);
+
+    List<Order> searchOrdersByItem(Long userId, String itemName);
+
+    List<Order> searchOrdersByDateRange(
+            Long userId,
+            LocalDateTime from,
+            LocalDateTime to);
 }

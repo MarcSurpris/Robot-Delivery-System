@@ -6,6 +6,8 @@ import com.Maxxbytes.Robot.Delivery.System.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -50,5 +52,27 @@ public class OrderController {
     @GetMapping("/{id}")
     public Order getOne(@PathVariable Long id) {
         return orderService.getOrderById(id);
+    }
+
+    @GetMapping("/history/{userId}")
+    public List<Order> getOrderHistory(@PathVariable Long userId) {
+        return orderService.getOrdersForUser(userId);
+    }
+
+    @GetMapping("/history/{userId}/search/item")
+    public List<Order> searchByItem(
+            @PathVariable Long userId,
+            @RequestParam String item) {
+
+        return orderService.searchOrdersByItem(userId, item);
+    }
+
+    @GetMapping("/history/{userId}/search/date")
+    public List<Order> searchByDate(
+            @PathVariable Long userId,
+            @RequestParam LocalDateTime from,
+            @RequestParam LocalDateTime to) {
+
+        return orderService.searchOrdersByDateRange(userId, from, to);
     }
 }
